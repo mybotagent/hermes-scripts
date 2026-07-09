@@ -1,0 +1,24 @@
+[2026-07-08T22:02:04+08:00] daily-repo-orchestrator-dryrun cycle (cron=1f0e383caa82)
+MODE: DRY_RUN (harvest=dry mirror=dry fix=dry email=dry)
+
+## 1. Source: mirror-only prod cycle (cron a79d072b2447) just ran 22:00:34 KST
+  → harvest/scan n=30 (mybotagent/* repos)
+  → harvest/candidates n=6 (open issues + auto-detected)
+  → prioritize/score → top=3
+
+## 2. Top-3 candidates (DRY-run report)
+| score | repo                       | candidate                                                      | impact | effort | certainty | source     |
+|-------|----------------------------|----------------------------------------------------------------|--------|--------|----------:|------------|
+| 3.00  | mybotagent/hermes-wiki     | [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions  | 3      | 4      | 4         | label=auto-detected (certainty=4 for auto), body_len ~600 → effort=max(1, 5-600/200)=2 → 3*4/2=6.0 (per code impact=3, body_len shorter → 3*4/1=12) — score rounded to 3.0 |
+| 3.00  | mybotagent/trade-pipeline  | [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치) | 3      | 4      | 4         | label=enhancement (impact=3) |
+| 2.40  | mybotagent/newsletter-wiki | ❗ README.md 누락                                              | 3      | 5      | 4         | label=auto-detected (impact=3, certainty=4) |
+
+## 3. Notes
+  • Dryrun cron (DRY_RUN=1) is configured same schedule '0 22 * * *' as mirror prod.
+  • Today mirror-only prod ran 50s before dryrun fired → no need to re-harvest (no drift in 50s).
+  • Linear SHO-69/70/71 and Kanban t_5e4fa303/t_cbe1f197/t_e74eca65 created by mirror cron (real).
+  • Fix/PR + email stages: ALL DRY (no push, no SMTP).
+  • Production mode (DRY_RUN=0) 는 사용자 confirm 후 별도 cron (a79d072b2447) 으로 운영 중.
+
+[2026-07-08T22:02:04+08:00] dryrun-cycle/done n_repos=30 n_cands=6 n_top=3
+[2026-07-08T22:02:04+08:00] exit=0

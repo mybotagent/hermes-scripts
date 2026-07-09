@@ -1,0 +1,15 @@
+{"ts": "2026-07-06T19:19:43", "stage": "harvest", "action": "scan", "dry_run": true, "n": 29}
+{"ts": "2026-07-06T22:00:37", "stage": "harvest", "action": "scan", "dry_run": true, "n": 30}
+{"ts": "2026-07-06T22:01:01", "stage": "harvest", "action": "candidates", "dry_run": true, "n": 7}
+{"ts": "2026-07-06T22:01:01", "stage": "prioritize", "action": "score", "dry_run": true, "top": ["[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO", "[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4", "❗ README.md 누락"]}
+{"ts": "2026-07-06T22:01:01", "stage": "mirror", "action": "linear-dry", "dry_run": true, "fake_id": "SHO-850", "title": "[AUTO 2026-07-06] [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO"}
+{"ts": "2026-07-06T22:01:01", "stage": "mirror", "action": "linear-dry", "dry_run": true, "fake_id": "SHO-851", "title": "[AUTO 2026-07-06] [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404"}
+{"ts": "2026-07-06T22:01:01", "stage": "mirror", "action": "linear-dry", "dry_run": true, "fake_id": "SHO-852", "title": "[AUTO 2026-07-06] ❗ README.md 누락"}
+{"ts": "2026-07-06T22:01:01", "stage": "mirror", "action": "kanban-dry", "dry_run": true, "task": "t_daily_220036_00", "title": "[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions"}
+{"ts": "2026-07-06T22:01:01", "stage": "mirror", "action": "kanban-dry", "dry_run": true, "task": "t_daily_220036_01", "title": "[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)"}
+{"ts": "2026-07-06T22:01:01", "stage": "mirror", "action": "kanban-dry", "dry_run": true, "task": "t_daily_220036_02", "title": "❗ README.md 누락"}
+{"ts": "2026-07-06T22:01:01", "stage": "fix", "action": "pr-dry", "dry_run": true, "title": "fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions", "branch": "(would be: hermes-auto/2026-07-06-audit-2026-07-03-3-todo-actio)"}
+{"ts": "2026-07-06T22:01:01", "stage": "fix", "action": "pr-dry", "dry_run": true, "title": "fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)", "branch": "(would be: hermes-auto/2026-07-06-epic-2026-07-01-1-be-cron-404)"}
+{"ts": "2026-07-06T22:01:01", "stage": "fix", "action": "pr-dry", "dry_run": true, "title": "fix: ❗ README.md 누락", "branch": "(would be: hermes-auto/2026-07-06-readme-md)"}
+{"ts": "2026-07-06T22:01:01", "stage": "report", "action": "dry-skip-email", "dry_run": true}
+{"ts": "2026-07-06T22:01:01", "stage": "cycle", "action": "done", "dry_run": true, "n_repos": 30, "n_cands": 7, "n_top": 3}
