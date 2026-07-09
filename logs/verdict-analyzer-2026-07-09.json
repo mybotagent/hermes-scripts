@@ -1,0 +1,35 @@
+{
+  "repos_scanned": 4,
+  "prs_analyzed": 44,
+  "verdicts": {
+    "Approve": 18,
+    "Changes Requested": 0,
+    "Blocked": 10,
+    "Other": 5
+  },
+  "severity_counts": {
+    "🔴": 45,
+    "🟠": 31,
+    "🟡": 31,
+    "⚪": 65
+  },
+  "issue_keywords": {
+    "review": 11,
+    "fix": 9,
+    "workflow": 12,
+    "secret": 8,
+    "pr": 33,
+    "token": 2,
+    "api_key": 1,
+    "trusted": 9,
+    "test": 6,
+    "leak": 4,
+    "ci ": 4,
+    "refactor": 1,
+    "sanity": 2,
+    "changelog": 7,
+    "copyright": 3,
+    "license": 6
+  },
+  "examples_per_repo": {}
+}
