@@ -41,23 +41,34 @@ TODAY = datetime.now(tz=timezone.utc).strftime('%Y-%m-%d')
 
 DANGEROUS_DELIVER = re.compile(r'^discord:\d+(:\d*)?$')
 SKIP_THRESHOLD_HOURS = 24
-LLM_CACHE_TTL_HOURS = 6
+LLM_CACHE_TTL_HOURS = 1   # v2: 6h → 1h — 자동 fix 안 되는 진단은 더 자주 재평가
 STALE_LOCK_SEC = 120
 OLD_LOCK_SEC = 1800   # 자동 fix 임계 (30분)
 
 
 # ── env helper ──
 def _env_lookup(key):
-    env_path = f'{HERMES_HOME}/.env.discord_webhook'
-    if not os.path.exists(env_path):
-        return ''
-    try:
-        with open(env_path) as f:
-            for line in f:
-                if line.startswith(f'{key}='):
-                    return line.split('=', 1)[1].strip().strip('"').strip("'")
-    except Exception:
-        return ''
+    # v2 (2026-07-13): 멀티 후보 — Discord env, main .env 둘 다 시도
+    candidates = [
+        f'{HERMES_HOME}/.env.discord_webhook',
+        f'{HERMES_HOME}/.env',
+        f'{os.path.expanduser("~")}/.env',
+    ]
+    for env_path in candidates:
+        if not os.path.exists(env_path):
+            continue
+        try:
+            with open(env_path) as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith('#'):
+                        continue
+                    if line.startswith(f'{key}='):
+                        val = line.split('=', 1)[1].strip().strip('"').strip("'")
+                        if val:
+                            return val
+        except Exception:
+            continue
     return ''
 
 
@@ -174,12 +185,14 @@ def apply_fix(fix_action):
 # ── LLM 호출 (DeepSeek API) ──
 def call_llm_analyze(jid, name, deliver, status, last_error, recent_history):
     if not DEEPSEEK_KEY:
+        # v2 (2026-07-13): 키 진짜 없으면 거짓 진단 대신 silent + retry 마커
+        # 이전: 'LLM 키 미설정' → confidence:low → 무한 알림 루프
         return {
-            'root_cause': 'LLM 키 미설정 (DEEPSEEK_API_KEY env 없음)',
-            'fix_action': '수동 진단 필요',
+            'root_cause': 'watchdog LLM 키 미설정 — 자동 fix 시도 생략, 다음 사이클에 retry',
+            'fix_action': 'silence_until_key_present',
             'auto_fixable': False,
             'confidence': 'low',
-            'note': 'webhook만 전송됨, LLM 분석 생략',
+            'note': 'DEEPSEEK_API_KEY 누락 — alert 대신 silent',
         }
     prompt = '\n'.join([
         '너는 시스템 자동복구 분석가다. 아래 cron 작업이 실패했어.',
@@ -210,9 +223,8 @@ def call_llm_analyze(jid, name, deliver, status, last_error, recent_history):
                 'Authorization': f'Bearer {DEEPSEEK_KEY}',
                 'Content-Type': 'application/json',
             },
-            timeout=15,
         )
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, timeout=15) as resp:
             payload = json.loads(resp.read().decode())
         text = payload['choices'][0]['message']['content'].strip()
         m = re.search(r'\{[\s\S]*\}', text)
@@ -396,6 +408,15 @@ def main():
             auto_fixable = llm_result.get('auto_fixable', False)
 
             bool_fix = '예 (자동 fix 가능)' if auto_fixable else '아니오 (수동 확인 필요)'
+            # v2 (2026-07-13): silence_until_key_present → Discord 알림 skip (무한 알림 방지)
+            if fix_action_rec == 'silence_until_key_present':
+                discord_sent = False
+                root_cause_actions.append((
+                    jid, name, root_cause, fix_action_rec,
+                    'SILENT_NO_KEY', False,
+                ))
+                skipped.append((jid, name, day_retries))
+                continue
             title = f'🔴 재시도 초과 + 근본 원인 ({confidence} conf)'
             body = '\n'.join([
                 f'**job**: `{name}` (`{jid[:12]}`)',

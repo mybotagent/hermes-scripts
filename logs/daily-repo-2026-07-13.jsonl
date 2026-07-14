@@ -1,0 +1,33 @@
+{"ts": "2026-07-13T22:00:15", "stage": "harvest", "action": "scan", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 30}
+{"ts": "2026-07-13T22:00:39", "stage": "harvest", "action": "dry-skip", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}}
+{"ts": "2026-07-13T22:00:39", "stage": "harvest", "action": "candidates-dry", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}, "n": 0}
+{"ts": "2026-07-13T22:00:39", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}, "top": []}
+{"ts": "2026-07-13T22:00:39", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}}
+{"ts": "2026-07-13T22:00:39", "stage": "cycle", "action": "done", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}, "n_repos": 0, "n_cands": 0, "n_top": 0}
+{"ts": "2026-07-13T22:00:49", "stage": "harvest", "action": "scan", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "n": 30}
+{"ts": "2026-07-13T22:01:02", "stage": "harvest", "action": "candidates", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 9}
+{"ts": "2026-07-13T22:01:02", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "top": ["[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO", "[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4", "❗ README.md 누락"]}
+{"ts": "2026-07-13T22:01:03", "stage": "mirror", "action": "linear", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "id": "SHO-84"}
+{"ts": "2026-07-13T22:01:04", "stage": "mirror", "action": "linear", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "id": "SHO-85"}
+{"ts": "2026-07-13T22:01:05", "stage": "mirror", "action": "linear", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "id": "SHO-86"}
+{"ts": "2026-07-13T22:01:06", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_95a13d11"}
+{"ts": "2026-07-13T22:01:06", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_a4022b35"}
+{"ts": "2026-07-13T22:01:06", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_2a1d2e7e"}
+{"ts": "2026-07-13T22:01:06", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "title": "fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions", "branch": "(would be: hermes-auto/2026-07-13-audit-2026-07-03-3-todo-actio)"}
+{"ts": "2026-07-13T22:01:06", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "title": "fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)", "branch": "(would be: hermes-auto/2026-07-13-epic-2026-07-01-1-be-cron-404)"}
+{"ts": "2026-07-13T22:01:06", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "title": "fix: ❗ README.md 누락", "branch": "(would be: hermes-auto/2026-07-13-readme-md)"}
+{"ts": "2026-07-13T22:01:06", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}}
+{"ts": "2026-07-13T22:01:06", "stage": "cycle", "action": "done", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n_repos": 30, "n_cands": 9, "n_top": 3}
+{"ts": "2026-07-13T22:01:31", "stage": "harvest", "action": "candidates", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "n": 8}
+{"ts": "2026-07-13T22:01:31", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "top": ["[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO", "[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4", "❗ README.md 누락"]}
+{"ts": "2026-07-13T22:01:31", "stage": "mirror", "action": "linear-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "fake_id": "SHO-850", "title": "[AUTO 2026-07-13] [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO"}
+{"ts": "2026-07-13T22:01:31", "stage": "mirror", "action": "linear-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "fake_id": "SHO-851", "title": "[AUTO 2026-07-13] [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404"}
+{"ts": "2026-07-13T22:01:31", "stage": "mirror", "action": "linear-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "fake_id": "SHO-852", "title": "[AUTO 2026-07-13] ❗ README.md 누락"}
+{"ts": "2026-07-13T22:01:31", "stage": "mirror", "action": "kanban-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "task": "t_daily_220048_00", "title": "[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions"}
+{"ts": "2026-07-13T22:01:31", "stage": "mirror", "action": "kanban-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "task": "t_daily_220048_01", "title": "[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)"}
+{"ts": "2026-07-13T22:01:31", "stage": "mirror", "action": "kanban-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "task": "t_daily_220048_02", "title": "❗ README.md 누락"}
+{"ts": "2026-07-13T22:01:31", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "title": "fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions", "branch": "(would be: hermes-auto/2026-07-13-audit-2026-07-03-3-todo-actio)"}
+{"ts": "2026-07-13T22:01:31", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "title": "fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)", "branch": "(would be: hermes-auto/2026-07-13-epic-2026-07-01-1-be-cron-404)"}
+{"ts": "2026-07-13T22:01:31", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "title": "fix: ❗ README.md 누락", "branch": "(would be: hermes-auto/2026-07-13-readme-md)"}
+{"ts": "2026-07-13T22:01:31", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}}
+{"ts": "2026-07-13T22:01:31", "stage": "cycle", "action": "done", "dry_flags": {"harvest": false, "mirror": true, "fix": true, "email": true}, "n_repos": 30, "n_cands": 8, "n_top": 3}
