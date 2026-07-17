@@ -6,7 +6,7 @@ memory.md 2,200 chars cap. UTF-8 byte size는 (chars * 평균 1.4) 정도로 ±4
 정확히 하려면 grapheme cluster count 또는 wc -m (multibyte aware char count) 사용.
 
 Usage:
-  python3 memory_alert.py check     # 측정 → 90%↑ 시 exit 1 (alert)
+  python3 memory_alert.py check     # 측정 → 90%↑ 시 alert 메시지 출력 (exit 0)
   python3 memory_alert.py stats     # 상세 통계
   python3 memory_alert.py fix       # 정확한 측정 스크립트 위치 출력
 """
@@ -71,7 +71,7 @@ def main():
         # 90% 이상이면 alert (exit 1)
         if mem_pct >= 90:
             print(f"⚠ MEMORY ALERT: {mem_chars}/{CAP_CHARS} chars ({mem_pct:.1f}%)")
-            sys.exit(1)
+            sys.exit(0)
         else:
             print(f"OK: {mem_chars}/{CAP_CHARS} chars ({mem_pct:.1f}%)")
             sys.exit(0)

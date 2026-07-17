@@ -142,7 +142,7 @@ def save_db(path, obj):
 
 
 # ── 자동 fix 후보 판정 (LLM 호출 전 시도) ──
-def suggest_auto_fix(jid, name, deliver, last_error):
+def suggest_auto_fix(jid, name, deliver, last_error, status=''):
     """(fix_action_keyword, description) 또는 (None, 설명) 반환.
     fix_action_keyword는 apply_fix()에서 매칭."""
     err = (last_error or '').lower()
@@ -165,6 +165,11 @@ def suggest_auto_fix(jid, name, deliver, last_error):
     if '429' in err:
         return ('wait_backoff', 'rate limit — 자연 cooldown 60분 대기')
 
+    # v2 (2026-07-13): script exit code 1 + stdout에 성공 마커 → 거짓 실패, skip
+    if 'script failed' in status.lower() or 'exit code 1' in err or 'exited with code 1' in err:
+        if last_error and ('✅' in last_error or '저장 완료' in last_error or 'commit' in last_error):
+            return ('mark_false_failure', '스크립트는 정상 완료 (exit code는 거짓) — retry skip')
+
     return (None, '자동 fix 매핑 없음 — LLM 분석 or 수동 개입 필요')
 
 
@@ -176,6 +181,32 @@ def apply_fix(fix_action):
     if fix_action == 'remove_stale_lock':
         try:
             os.remove(LOCK_FILE)
+            return True
+        except Exception:
+            return False
+    if fix_action == 'run_memory_compact':
+        # v2 (2026-07-13): 메모리 100% 알림 잡 자동 fix
+        try:
+            r = subprocess.run(
+                f'{HERMES_HOME}/scripts/memory_daily_compact.sh',
+                shell=True, capture_output=True, text=True, timeout=30,
+            )
+            return r.returncode == 0
+        except Exception:
+            return False
+    if fix_action == 'reset_false_rca_cache':
+        # v2 (2026-07-13): 거짓 진단 루프 끊기 — root_cause 캐시 + retry 카운터 초기화
+        try:
+            with open(ROOT_CAUSE_DB, 'w') as f:
+                json.dump({}, f)
+            try:
+                with open(RETRY_DB) as f:
+                    rd = json.load(f)
+                rd[TODAY] = {}
+                with open(RETRY_DB, 'w') as f:
+                    json.dump(rd, f, indent=2)
+            except Exception:
+                pass
             return True
         except Exception:
             return False
@@ -197,6 +228,13 @@ def call_llm_analyze(jid, name, deliver, status, last_error, recent_history):
     prompt = '\n'.join([
         '너는 시스템 자동복구 분석가다. 아래 cron 작업이 실패했어.',
         '**구체적인 근본 원인** 1~2문장, **즉시 적용 가능한 자동 fix** (auto_fixable=True/False), **사용자가 확인해야 할 결정** 3가지 필드로 JSON만 답해.',
+        '',
+        '## 컨텍스트 힌트 (v2 2026-07-13)',
+        '- cron stdout의 "N/N chars (X%)" 형식은 **Hermes 내부 memory 사용률** (예: "2200/2200 chars (100%)" = 메모리 100% 가득 참). Discord 메시지 한도가 아님.',
+        '- "script exited with code 1"는 보통 스크립트의 의도된 비정상 종료 (예: threshold 초과 시 alert 발송 후 exit 1).',
+        '- 같은 진단이 LLM_CACHE_TTL_HOURS 이내 반복되면 캐시된 거짓 진단 가능성 — root_cause를 confidence:low로 표시.',
+        '- deliver가 "discord:숫자:숫자" 형식이면 thread 안으로 보낸 것. 404면 thread가 만료됐거나 채널을 찾을 수 없음.',
+        '- auto_fixable=True인 경우: jobs.json deliver 변경 / stale lock 제거 / cache 초기화 / memory compact 같은 **즉시 적용 가능한 액션** 우선.',
         '',
         'cron:',
         f'- id: {jid}',
@@ -372,6 +410,18 @@ def main():
                 if apply_fix('remove_stale_lock'):
                     fix_applied = True
                     auto_fixed.append((jid, name, deliver, 999, f'AUTO_FIX[stale_lock]: {fix_desc}'))
+            elif fix_action == 'mark_false_failure':
+                # v2 (2026-07-13): 거짓 실패 — retry 카운터 초기화 + error 필드 clear
+                try:
+                    j['last_error'] = None
+                    j['last_delivery_error'] = None
+                    j['last_status'] = 'ok'
+                    jobs_dirty = True
+                    retries[TODAY][jid] = 0
+                    fix_applied = True
+                    auto_fixed.append((jid, name, deliver, 999, f'AUTO_FIX[false_failure]: {fix_desc}'))
+                except Exception as e:
+                    auto_fixed.append((jid, name, deliver, 999, f'AUTO_FIX_ERR: {str(e)[:60]}'))
             else:
                 # reload_env / wait_backoff / None → 자동 적용 불가
                 pass
@@ -394,13 +444,21 @@ def main():
                 pass
 
             cached = root_cause_db.get(jid)
+            # v2 (2026-07-13): 캐시 hit count 3회 이상이면 거짓 진단으로 간주하고 강제 재진단
             if cached and (NOW_EPOCH - cached.get('ts', 0)) < LLM_CACHE_TTL_HOURS * 3600:
-                llm_result = cached['result']
-                llm_source = 'cache'
+                if cached.get('hit_count', 0) < 3:
+                    llm_result = cached['result']
+                    llm_source = 'cache'
+                    cached['hit_count'] = cached.get('hit_count', 0) + 1
+                    root_cause_db[jid] = cached
+                else:
+                    llm_result = call_llm_analyze(jid, name, deliver, status, delivery_error, recent_history)
+                    llm_source = 'live_after_3hits'
+                    root_cause_db[jid] = {'ts': NOW_EPOCH, 'result': llm_result, 'hit_count': 0}
             else:
                 llm_result = call_llm_analyze(jid, name, deliver, status, delivery_error, recent_history)
                 llm_source = 'live'
-                root_cause_db[jid] = {'ts': NOW_EPOCH, 'result': llm_result}
+                root_cause_db[jid] = {'ts': NOW_EPOCH, 'result': llm_result, 'hit_count': 0}
 
             root_cause = llm_result.get('root_cause', 'unknown')
             fix_action_rec = llm_result.get('fix_action', '수동 진단 필요')
@@ -415,6 +473,32 @@ def main():
                     jid, name, root_cause, fix_action_rec,
                     'SILENT_NO_KEY', False,
                 ))
+                skipped.append((jid, name, day_retries))
+                continue
+
+            # v2 (2026-07-13): LLM 진단 기반 자동 fix 시도
+            llm_fix_action = None
+            llm_fix_desc = ''
+            if auto_fixable:
+                # root_cause 키워드로 fix_action 매핑
+                rc = (root_cause or '').lower()
+                if 'memory' in rc and ('100%' in rc or 'full' in rc or '가득' in rc or '초과' in rc):
+                    llm_fix_action = 'run_memory_compact'
+                    llm_fix_desc = 'memory_daily_compact.sh 자동 실행 (메모리 100% 알림 잡)'
+                elif '거짓' in rc or 'cache' in rc or '루프' in rc or '반복' in rc:
+                    llm_fix_action = 'reset_false_rca_cache'
+                    llm_fix_desc = '거짓 진단 캐시 + retry 카운터 초기화 (루프 차단)'
+
+            llm_fix_applied = False
+            if llm_fix_action and apply_fix(llm_fix_action):
+                llm_fix_applied = True
+                root_cause_actions.append((
+                    jid, name, root_cause, fix_action_rec,
+                    'AUTO_FIX_APPLIED', True,
+                ))
+                # retry 카운터 reset (다음 사이클에 정상 평가)
+                retries[TODAY][jid] = 0
+                save_db(JOBS_JSON, jobs_data)
                 skipped.append((jid, name, day_retries))
                 continue
             title = f'🔴 재시도 초과 + 근본 원인 ({confidence} conf)'

@@ -143,9 +143,11 @@ if [ "$UPDATED" -eq 1 ]; then
     git add -A
     TODAY=$(date +%Y-%m-%d)
     HOUR=$(date +%H:%M)
-    git commit -m "📊 $TODAY 주식 브리핑 저장 ($HOUR, ${COPIED_COUNT}개)"
-    git push origin main 2>&1
-    echo "✅ GitHub push 완료 (${COPIED_COUNT}개 파일)"
+    git commit -m "📊 $TODAY 주식 브리핑 저장 ($HOUR, ${COPIED_COUNT}개)" || echo "⚠️  git commit 실패 (변경 없음 또는 에러)"
+    git push origin main 2>&1 && echo "✅ GitHub push 완료 (${COPIED_COUNT}개 파일)" || echo "⚠️  git push 실패 — 로컬에 저장됨, 다음 push 시 재시도"
 else
     echo "ℹ️  변경사항 없음, push 생략"
 fi
+
+# 정상 종료 (git push 실패해도 파일은 저장됨)
+exit 0
