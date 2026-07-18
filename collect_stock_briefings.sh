@@ -131,7 +131,16 @@ for job_id in "${!JOBS[@]}"; do
     fi
 
     mv "$tmp_file" "$target_file"
-    echo "✅ $date_str/$name.md: 저장 완료"
+    # Extract time from original cron filename (2026-07-17_08-22-43.md → 08:22)
+    cron_base=$(basename "$latest")
+    time_part=$(echo "$cron_base" | sed -n 's/^[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}_\([0-9]\{2\}\)-\([0-9]\{2\}\)-.*/\1:\2/p')
+    if [ -n "$time_part" ]; then
+        echo "" >> "$target_file"
+        echo "---" >> "$target_file"
+        echo "⏱️ 생성: $date_str $time_part KST" >> "$target_file"
+        echo "---" >> "$target_file"
+    fi
+    echo "✅ $date_str/$name.md: 저장 완료 (${time_part:-시간정보없음})"
     COPIED_COUNT=$((COPIED_COUNT + 1))
     UPDATED=1
 done
