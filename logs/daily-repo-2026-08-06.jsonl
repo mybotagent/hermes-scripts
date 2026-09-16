@@ -1,0 +1,14 @@
+{"ts": "2026-08-06T22:00:42", "stage": "harvest", "action": "scan", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 30}
+{"ts": "2026-08-06T22:01:11", "stage": "harvest", "action": "candidates", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 8}
+{"ts": "2026-08-06T22:01:11", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "top": ["[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4", "[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO", "❗ README.md 누락"]}
+{"ts": "2026-08-06T22:01:14", "stage": "mirror", "action": "linear", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "id": "SHO-228"}
+{"ts": "2026-08-06T22:01:15", "stage": "mirror", "action": "linear", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "id": "SHO-229"}
+{"ts": "2026-08-06T22:01:16", "stage": "mirror", "action": "linear", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "id": "SHO-230"}
+{"ts": "2026-08-06T22:01:33", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_3e2b843d"}
+{"ts": "2026-08-06T22:01:39", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_6b258977"}
+{"ts": "2026-08-06T22:01:48", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_021e54b7"}
+{"ts": "2026-08-06T22:01:48", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "title": "fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)", "branch": "(would be: hermes-auto/2026-08-06-epic-2026-07-01-1-be-cron-404)"}
+{"ts": "2026-08-06T22:01:48", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "title": "fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions", "branch": "(would be: hermes-auto/2026-08-06-audit-2026-07-03-3-todo-actio)"}
+{"ts": "2026-08-06T22:01:48", "stage": "fix", "action": "pr-dry", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "title": "fix: ❗ README.md 누락", "branch": "(would be: hermes-auto/2026-08-06-readme-md)"}
+{"ts": "2026-08-06T22:01:48", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}}
+{"ts": "2026-08-06T22:01:48", "stage": "cycle", "action": "done", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n_repos": 30, "n_cands": 8, "n_top": 3}

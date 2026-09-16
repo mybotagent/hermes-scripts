@@ -1,0 +1,52 @@
+[2026-09-09T22:00:33+08:00] daily-repo-orchestrator mirror-only cycle
+=== Hermes daily_repo_orchestrator.py | 2026-09-09 | DRY_RUN=False ===
+[2026-09-09T22:00:35] harvest/scan n=30
+[2026-09-09T22:00:37] harvest/skip repo=mybotagent/hermes-stock-briefings err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:38] harvest/skip repo=mybotagent/hermes-wiki err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:40] harvest/skip repo=mybotagent/ai-agent-wiki err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:40] harvest/skip repo=mybotagent/harness-engineering-wiki err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:40] harvest/skip repo=mybotagent/hermes-logs err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:41] harvest/skip repo=mybotagent/hermes-paper-portfolio err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:42] harvest/skip repo=mybotagent/trade-pipeline err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:44] harvest/skip repo=mybotagent/hermes-pr-gate err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:50] harvest/skip repo=mybotagent/skills err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:50] harvest/skip repo=mybotagent/daily-survey err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:50] harvest/skip repo=mybotagent/hermes-ideas err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:51] harvest/skip repo=mybotagent/newsletter-wiki err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:51] harvest/skip repo=mybotagent/hermes-management err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:51] harvest/skip repo=mybotagent/hermes-self-healing err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:52] harvest/skip repo=mybotagent/meeting-notes err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:52] harvest/skip repo=mybotagent/hermes-pipeline-scripts err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:53] harvest/skip repo=mybotagent/portfolio-2026-track-b err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:53] harvest/skip repo=mybotagent/wiki-knowledge-eval err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:53] harvest/skip repo=mybotagent/ai-job-analysis err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:54] harvest/skip repo=mybotagent/subagents-library err=HTTP Error 403: Forbidden
+[2026-09-09T22:00:54] harvest/candidates n=2
+[2026-09-09T22:00:54] prioritize/score top=['❗ README.md 누락', '❗ README.md 누락']
+[2026-09-09T22:00:55] mirror/linear-err err='NoneType' object has no attribute 'get'
+[2026-09-09T22:00:55] mirror/linear-err err='NoneType' object has no attribute 'get'
+[2026-09-09T22:00:56] mirror/kanban task=t_c3a77d79
+[2026-09-09T22:00:56] mirror/kanban task=t_1a4e5168
+[Hermes Daily Repo Report] 2026-09-09
+
+## 1. Harvested repos
+- 30 repos scanned
+
+## 2. Top-3 candidates (prioritized)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-skills)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-scripts)
+
+## 3. Linear mirror
+
+## 4. Kanban mirror
+- t_c3a77d79: ❗ README.md 누락
+- t_1a4e5168: ❗ README.md 누락
+
+## 5. Fix / PR
+
+MODE: PRODUCTION
+  harvest=real mirror=real fix=dry email=dry
+timestamp: 220033
+[2026-09-09T22:00:56] report/dry-skip-email 
+[2026-09-09T22:00:56] cycle/done n_repos=30 n_cands=2 n_top=2
+[2026-09-09T22:00:56+08:00] exit=0

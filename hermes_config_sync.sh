@@ -29,7 +29,10 @@ die() { say "ERROR: $*" >&2; }
 say "===== hermes-config-sync START (DRY_RUN=$DRY_RUN, HERMES_HOME=$HERMES_HOME) ====="
 
 # ---- Step 0: token + access pre-flight ---------------------------------
-TOKEN=$(grep ^GITHUB_TOKEN= "${HERMES_HOME}/.env" 2>/dev/null | cut -d= -f2- | tr -d '"' | tr -d "'" || true)
+TOKEN=$(grep ^GH_TOKEN= "${HERMES_HOME}/.env" 2>/dev/null | cut -d= -f2- | tr -d '"' | tr -d "'" || true)
+if [ -z "${TOKEN:-}" ]; then
+  TOKEN=$(grep ^GITHUB_TOKEN= "${HERMES_HOME}/.env" 2>/dev/null | cut -d= -f2- | tr -d '"' | tr -d "'" || true)
+fi
 if [ -z "${TOKEN:-}" ]; then
   say "PRE-FLIGHT: GITHUB_TOKEN missing → all push steps skipped (record only)"
   DRY_RUN=1

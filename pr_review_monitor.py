@@ -117,12 +117,17 @@ def main():
     token = ""
     if token_file.exists():
         for line in token_file.read_text().splitlines():
-            if line.startswith("GITHUB_TOKEN="):
-                token = line.split("=", 1)[1].strip()
+            line = line.strip()
+            if line.startswith("#"):
+                continue
+            if line.startswith("GH_TOKEN="):
+                token = line.split("=", 1)[1].strip().strip('"')
                 break
+            if line.startswith("GITHUB_TOKEN=") and not token:
+                token = line.split("=", 1)[1].strip().strip('"')
 
     if not token:
-        print("[ERROR] GITHUB_TOKEN not found in ~/.hermes/.env")
+        print("[ERROR] GH_TOKEN / GITHUB_TOKEN not found in ~/.hermes/.env")
         return 1
 
     all_changes = []

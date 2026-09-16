@@ -1,0 +1,34 @@
+{"ts": "2026-09-09T21:28:46", "stage": "harvest", "action": "dry-skip", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}}
+{"ts": "2026-09-09T21:28:46", "stage": "harvest", "action": "candidates-dry", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}, "n": 0}
+{"ts": "2026-09-09T21:28:46", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}, "top": []}
+{"ts": "2026-09-09T21:28:46", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}}
+{"ts": "2026-09-09T21:28:46", "stage": "cycle", "action": "done", "dry_flags": {"harvest": true, "mirror": true, "fix": true, "email": true}, "n_repos": 0, "n_cands": 0, "n_top": 0}
+{"ts": "2026-09-09T22:00:35", "stage": "harvest", "action": "scan", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 30}
+{"ts": "2026-09-09T22:00:37", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-stock-briefings", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:38", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-wiki", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:40", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/ai-agent-wiki", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:40", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/harness-engineering-wiki", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:40", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-logs", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:41", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-paper-portfolio", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:42", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/trade-pipeline", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:44", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-pr-gate", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:50", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/skills", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:50", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/daily-survey", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:50", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-ideas", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:51", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/newsletter-wiki", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:51", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-management", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:51", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-self-healing", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:52", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/meeting-notes", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:52", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/hermes-pipeline-scripts", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:53", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/portfolio-2026-track-b", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:53", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/wiki-knowledge-eval", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:53", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/ai-job-analysis", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:54", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/subagents-library", "err": "HTTP Error 403: Forbidden"}
+{"ts": "2026-09-09T22:00:54", "stage": "harvest", "action": "candidates", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 2}
+{"ts": "2026-09-09T22:00:54", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "top": ["❗ README.md 누락", "❗ README.md 누락"]}
+{"ts": "2026-09-09T22:00:55", "stage": "mirror", "action": "linear-err", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "err": "'NoneType' object has no attribute 'get'"}
+{"ts": "2026-09-09T22:00:55", "stage": "mirror", "action": "linear-err", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "err": "'NoneType' object has no attribute 'get'"}
+{"ts": "2026-09-09T22:00:56", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_c3a77d79"}
+{"ts": "2026-09-09T22:00:56", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_1a4e5168"}
+{"ts": "2026-09-09T22:00:56", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}}
+{"ts": "2026-09-09T22:00:56", "stage": "cycle", "action": "done", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n_repos": 30, "n_cands": 2, "n_top": 2}

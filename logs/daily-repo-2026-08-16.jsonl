@@ -1,0 +1,11 @@
+{"ts": "2026-08-16T22:00:36", "stage": "harvest", "action": "scan", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 30}
+{"ts": "2026-08-16T22:00:57", "stage": "harvest", "action": "candidates", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 8}
+{"ts": "2026-08-16T22:00:57", "stage": "prioritize", "action": "score", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "top": ["[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO", "[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4", "❗ README.md 누락"]}
+{"ts": "2026-08-16T22:00:58", "stage": "mirror", "action": "linear-err", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "err": "'NoneType' object has no attribute 'get'"}
+{"ts": "2026-08-16T22:01:00", "stage": "mirror", "action": "linear-err", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "err": "'NoneType' object has no attribute 'get'"}
+{"ts": "2026-08-16T22:01:00", "stage": "mirror", "action": "linear-err", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "err": "'NoneType' object has no attribute 'get'"}
+{"ts": "2026-08-16T22:01:01", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_91a1ae61"}
+{"ts": "2026-08-16T22:01:02", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_285aef0b"}
+{"ts": "2026-08-16T22:01:02", "stage": "mirror", "action": "kanban", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "task": "t_93cb9f5f"}
+{"ts": "2026-08-16T22:01:02", "stage": "report", "action": "dry-skip-email", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}}
+{"ts": "2026-08-16T22:01:02", "stage": "cycle", "action": "done", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n_repos": 30, "n_cands": 8, "n_top": 3}

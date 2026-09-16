@@ -27,6 +27,25 @@ from datetime import datetime, timezone
 
 # ── 상수 ──
 HERMES_HOME = os.environ.get('HERMES_HOME') or os.path.expanduser('~/.hermes')
+
+# cron(no_agent) 환경에서 .env 자동 로드
+_ENV_LOADED = False
+for _env_cand in (f'{HERMES_HOME}/.env', os.path.expanduser('~/.env')):
+    if os.path.exists(_env_cand) and not _ENV_LOADED:
+        try:
+            with open(_env_cand) as _f:
+                for _line in _f:
+                    _line = _line.strip()
+                    if not _line or _line.startswith('#'): continue
+                    if '=' in _line:
+                        _k, _v = _line.split('=', 1)
+                        _v = _v.strip().strip('"').strip("'")
+                        if _v and _k not in os.environ:
+                            os.environ[_k] = _v
+            _ENV_LOADED = True
+        except Exception:
+            pass
+
 JOBS_JSON = f'{HERMES_HOME}/cron/jobs.json'
 JOBS_JSON_BAK = f'{HERMES_HOME}/cron/jobs.json.bak'
 LOCK_FILE = f'{HERMES_HOME}/cron/.tick.lock'
@@ -72,7 +91,7 @@ def _env_lookup(key):
     return ''
 
 
-DEEPSEEK_KEY = os.environ.get('DEEPSEEK_API_KEY') or _env_lookup('DEEPSEEK_API_KEY')
+DEEPSEEK_KEY = os.environ.get('MINIMAX_API_KEY') or _env_lookup('MINIMAX_API_KEY')
 DISCORD_WEBHOOK = (
     os.environ.get('DISCORD_WEBHOOK_ROOT_CAUSE')
     or _env_lookup('DISCORD_WEBHOOK_ROOT_CAUSE')
@@ -213,17 +232,19 @@ def apply_fix(fix_action):
     return False
 
 
-# ── LLM 호출 (DeepSeek API) ──
+# ── LLM 호출 (MiniMax API) ──
 def call_llm_analyze(jid, name, deliver, status, last_error, recent_history):
     if not DEEPSEEK_KEY:
-        # v2 (2026-07-13): 키 진짜 없으면 거짓 진단 대신 silent + retry 마커
-        # 이전: 'LLM 키 미설정' → confidence:low → 무한 알림 루프
+        # 키 없으면 stderr에 출력 (cron 로그 확인용)
+        import sys as _sys
+        _sys.stderr.write(f'[call_llm_analyze] MINIMAX_KEY 미설정 — .env 확인 필요\n')
+        _sys.stderr.flush()
         return {
             'root_cause': 'watchdog LLM 키 미설정 — 자동 fix 시도 생략, 다음 사이클에 retry',
             'fix_action': 'silence_until_key_present',
             'auto_fixable': False,
             'confidence': 'low',
-            'note': 'DEEPSEEK_API_KEY 누락 — alert 대신 silent',
+            'note': 'MINIMAX_API_KEY 미설정 — alert 대신 silent',
         }
     prompt = '\n'.join([
         '너는 시스템 자동복구 분석가다. 아래 cron 작업이 실패했어.',
@@ -249,13 +270,13 @@ def call_llm_analyze(jid, name, deliver, status, last_error, recent_history):
     ])
     try:
         req_body = json.dumps({
-            'model': 'deepseek-chat',
+            'model': 'MiniMax-M2.7',
             'messages': [{'role': 'user', 'content': prompt}],
             'temperature': 0.2,
-            'max_tokens': 400,
+            'max_tokens': 600,
         }).encode()
         req = urllib.request.Request(
-            'https://api.deepseek.com/v1/chat/completions',
+            'https://api.minimax.io/v1/chat/completions',
             data=req_body,
             headers={
                 'Authorization': f'Bearer {DEEPSEEK_KEY}',
@@ -265,10 +286,22 @@ def call_llm_analyze(jid, name, deliver, status, last_error, recent_history):
         with urllib.request.urlopen(req, timeout=15) as resp:
             payload = json.loads(resp.read().decode())
         text = payload['choices'][0]['message']['content'].strip()
-        m = re.search(r'\{[\s\S]*\}', text)
-        if not m:
-            raise ValueError('JSON 추출 실패')
-        parsed = json.loads(m.group(0))
+        # MiniMax may prepend a thinking block: <think>...</think>\n
+        # Strip everything from <think> to the first closing </think>
+        think_end = text.find('</think>')
+        if think_end >= 0:
+            text = text[think_end + len('</think>'):].strip()
+        # Also strip any residual thinking block that might appear after JSON (malformed responses)
+        # Try to extract JSON: find first '{' and last '}'
+        first_brace = text.find('{')
+        last_brace = text.rfind('}')
+        if first_brace < 0 or last_brace < 0 or last_brace <= first_brace:
+            raise ValueError('JSON 추출 실패 — 첫 번째 { 를 찾을 수 없음: ' + text[:100])
+        json_text = text[first_brace:last_brace + 1]
+        try:
+            parsed = json.loads(json_text)
+        except json.JSONDecodeError as je:
+            raise ValueError(f'JSON 파싱 실패: {je} — 추출内容: {json_text[:150]}{{')
         parsed.setdefault('auto_fixable', False)
         parsed.setdefault('confidence', 'low')
         parsed.setdefault('root_cause', text[:200])

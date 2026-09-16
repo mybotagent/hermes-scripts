@@ -59,7 +59,7 @@ def github_open_issues(token, repo):
 
 def main():
     tok = HERMES_HOME.joinpath(".env").read_text() if (HERMES_HOME / ".env").exists() else ""
-    m = re.search(r"^GITHUB_TOKEN=(.+)$", tok, re.M)
+    m = re.search(r"^GH_TOKEN=(.+)$", tok, re.M) or re.search(r"^GITHUB_TOKEN=(.+)$", tok, re.M)
     tok = m.group(1).strip().strip('"') if m else ""
     if not tok:
         print("[trigger_backlog_swipper] no GITHUB_TOKEN"); return

@@ -46,7 +46,7 @@ python3 "$SCRIPT_DIR/compute_portfolio_target.py" 2>&1 | grep "✅" || { echo " 
 if [ ! -d "$REPO_DIR" ]; then
     cd /tmp
     echo "  → Cloning Vercel repo..."
-    git clone "https://$(grep -oP 'GITHUB_TOKEN=\K.*' ~/.hermes/.env | tr -d '"')@github.com/mybotagent/hermes-paper-portfolio.git" "$REPO_DIR"
+    git clone "https://$(grep -oP '^GH_TOKEN=\K.*' ~/.hermes/.env 2>/dev/null | tr -d '"' || grep -oP '^GITHUB_TOKEN=\K.*' ~/.hermes/.env | tr -d '"')@github.com/mybotagent/hermes-paper-portfolio.git" "$REPO_DIR"
 fi
 
 # 6. 데이터 파일만 복사 (대시보드 포맷은 고정)

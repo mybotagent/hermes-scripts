@@ -1,0 +1,2 @@
+{"ts": "2026-08-24T22:54:45", "stage": "harvest", "action": "scan", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "n": 30}
+{"ts": "2026-08-25T00:01:38", "stage": "harvest", "action": "skip", "dry_flags": {"harvest": false, "mirror": false, "fix": true, "email": true}, "repo": "mybotagent/harness-engineering-wiki", "err": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occur"}

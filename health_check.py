@@ -139,7 +139,8 @@ except Exception as e:
 print(f"🏥 Hermes 시스템 헬스체크 — {now.strftime('%Y-%m-%d %H:%M KST')}")
 print()
 
-all_ok = True
+has_fail = False
+has_warn = False
 for category, items in checks.items():
     if not items:
         continue
@@ -147,7 +148,9 @@ for category, items in checks.items():
     for item in items:
         print(item)
         if item.startswith(FAIL):
-            all_ok = False
+            has_fail = True
+        elif item.startswith(WARN):
+            has_warn = True
     print()
 
 # Summary line
@@ -164,7 +167,6 @@ for category, items in checks.items():
         elif item.startswith(FAIL):
             cnt_fail += 1
         else:
-            # 깃발 아이콘이 앞에 없는 항목 (통계/데이터 라인) — 내부에서 깃발 검색
             cnt_ok += item.count(PASS)
             cnt_warn += item.count(WARN)
             cnt_fail += item.count(FAIL)
@@ -177,9 +179,12 @@ for category, items in checks.items():
 print(f"--- 요약 ---")
 print(" | ".join(summary_parts))
 print()
-if all_ok:
-    print(f"{PASS} 모든 시스템 정상")
-else:
+if has_fail:
     print(f"{FAIL} 일부 서비스 비정상 — 조치 필요!")
-
-sys.exit(0 if all_ok else 1)
+    sys.exit(1)
+elif has_warn:
+    print(f"{WARN} 일부 경고 존재 (정상 범위)")
+    sys.exit(0)
+else:
+    print(f"{PASS} 모든 시스템 정상")
+    sys.exit(0)
