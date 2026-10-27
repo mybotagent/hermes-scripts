@@ -1,0 +1,45 @@
+[2026-10-01T22:00:43+08:00] daily-repo-orchestrator mirror-only cycle
+=== Hermes daily_repo_orchestrator.py | 2026-10-01 | DRY_RUN=False ===
+[2026-10-01T22:00:44] harvest/scan n=30
+[2026-10-01T22:01:05] harvest/candidates n=8
+[2026-10-01T22:01:05] prioritize/score top=['[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO', '[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4', '❗ README.md 누락']
+[2026-10-01T22:01:06] mirror/linear id=SHO-4929
+[2026-10-01T22:01:06] mirror/linear id=SHO-4930
+[2026-10-01T22:01:07] mirror/linear id=SHO-4931
+[2026-10-01T22:01:08] mirror/kanban task=t_eb10298f
+[2026-10-01T22:01:08] mirror/kanban task=t_06bb24e7
+[2026-10-01T22:01:08] mirror/kanban task=t_7d62ad38
+[2026-10-01T22:01:08] fix/pr-dry title=fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions branch=(would be: hermes-auto/2026-10-01-audit-2026-07-03-3-todo-actio)
+[2026-10-01T22:01:08] fix/pr-dry title=fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치) branch=(would be: hermes-auto/2026-10-01-epic-2026-07-01-1-be-cron-404)
+[2026-10-01T22:01:08] fix/pr-dry title=fix: ❗ README.md 누락 branch=(would be: hermes-auto/2026-10-01-readme-md)
+[Hermes Daily Repo Report] 2026-10-01
+
+## 1. Harvested repos
+- 30 repos scanned
+
+## 2. Top-3 candidates (prioritized)
+- score=3.0  [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions  (repo=mybotagent/hermes-wiki)
+- score=3.0  [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)  (repo=mybotagent/trade-pipeline)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-paper-portfolio)
+
+## 3. Linear mirror
+- SHO-4929: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- SHO-4930: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watch
+- SHO-4931: ❗ README.md 누락
+
+## 4. Kanban mirror
+- t_eb10298f: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- t_06bb24e7: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watch
+- t_7d62ad38: ❗ README.md 누락
+
+## 5. Fix / PR
+- branch=(would be: hermes-auto/2026-10-01-audit-2026-07-03-3-todo-actio)  title=fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- branch=(would be: hermes-auto/2026-10-01-epic-2026-07-01-1-be-cron-404)  title=fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패
+- branch=(would be: hermes-auto/2026-10-01-readme-md)  title=fix: ❗ README.md 누락
+
+MODE: PRODUCTION
+  harvest=real mirror=real fix=dry email=dry
+timestamp: 220043
+[2026-10-01T22:01:08] report/dry-skip-email 
+[2026-10-01T22:01:08] cycle/done n_repos=30 n_cands=8 n_top=3
+[2026-10-01T22:01:09+08:00] exit=0

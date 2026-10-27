@@ -116,7 +116,12 @@ def sync_done_kanban_to_linear(apply: bool, mapping: dict) -> list[dict]:
         }
         """
         result = linear_graphql(query, {"id": linear_id})
-        issue = result.get("data", {}).get("issue")
+        if not isinstance(result, dict):
+            continue
+        data = result.get("data")
+        if not isinstance(data, dict):
+            continue
+        issue = data.get("issue")
         if not issue:
             continue
 

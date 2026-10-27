@@ -1,0 +1,42 @@
+[2026-10-18T22:00:17+08:00] daily-repo-orchestrator mirror-only cycle
+=== Hermes daily_repo_orchestrator.py | 2026-10-18 | DRY_RUN=False ===
+[2026-10-18T22:00:18] harvest/scan n=30
+[2026-10-18T22:00:36] harvest/candidates n=8
+[2026-10-18T22:00:36] prioritize/score top=['[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO', '[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4', '❗ README.md 누락']
+[2026-10-18T22:00:37] mirror/linear id=SHO-5004
+[2026-10-18T22:00:52] mirror/linear-err err=The read operation timed out
+[2026-10-18T22:01:07] mirror/linear id=SHO-5006
+[2026-10-18T22:01:08] mirror/kanban task=t_72394de0
+[2026-10-18T22:01:08] mirror/kanban task=t_a8015493
+[2026-10-18T22:01:08] mirror/kanban task=t_24544812
+[2026-10-18T22:01:08] fix/pr-dry title=fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions branch=(would be: hermes-auto/2026-10-18-audit-2026-07-03-3-todo-actio)
+[2026-10-18T22:01:08] fix/pr-dry title=fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치) branch=(would be: hermes-auto/2026-10-18-epic-2026-07-01-1-be-cron-404)
+[Hermes Daily Repo Report] 2026-10-18
+
+## 1. Harvested repos
+- 30 repos scanned
+
+## 2. Top-3 candidates (prioritized)
+- score=3.0  [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions  (repo=mybotagent/hermes-wiki)
+- score=3.0  [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)  (repo=mybotagent/trade-pipeline)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-skills)
+
+## 3. Linear mirror
+- SHO-5004: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- SHO-5006: ❗ README.md 누락
+
+## 4. Kanban mirror
+- t_72394de0: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- t_a8015493: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watch
+- t_24544812: ❗ README.md 누락
+
+## 5. Fix / PR
+- branch=(would be: hermes-auto/2026-10-18-audit-2026-07-03-3-todo-actio)  title=fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- branch=(would be: hermes-auto/2026-10-18-epic-2026-07-01-1-be-cron-404)  title=fix: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패
+
+MODE: PRODUCTION
+  harvest=real mirror=real fix=dry email=dry
+timestamp: 220017
+[2026-10-18T22:01:08] report/dry-skip-email 
+[2026-10-18T22:01:08] cycle/done n_repos=30 n_cands=8 n_top=3
+[2026-10-18T22:01:08+08:00] exit=0

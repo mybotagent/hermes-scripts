@@ -1,0 +1,36 @@
+[2026-09-22T22:00:44+08:00] daily-repo-orchestrator mirror-only cycle
+=== Hermes daily_repo_orchestrator.py | 2026-09-22 | DRY_RUN=False ===
+[2026-09-22T22:00:46] harvest/scan n=30
+[2026-09-22T22:01:06] harvest/candidates n=8
+[2026-09-22T22:01:06] prioritize/score top=['[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO', '[Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 4', '❗ README.md 누락']
+[2026-09-22T22:01:06] mirror/linear-err err='NoneType' object has no attribute 'get'
+[2026-09-22T22:01:07] mirror/linear-err err='NoneType' object has no attribute 'get'
+[2026-09-22T22:01:08] mirror/linear-err err='NoneType' object has no attribute 'get'
+[2026-09-22T22:01:09] mirror/kanban task=t_eaeca3b1
+[2026-09-22T22:01:10] mirror/kanban task=t_de2fe7bd
+[2026-09-22T22:01:10] mirror/kanban task=t_aaa1de70
+[Hermes Daily Repo Report] 2026-09-22
+
+## 1. Harvested repos
+- 30 repos scanned
+
+## 2. Top-3 candidates (prioritized)
+- score=3.0  [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions  (repo=mybotagent/hermes-wiki)
+- score=3.0  [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watchdog 패치)  (repo=mybotagent/trade-pipeline)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-paper-portfolio)
+
+## 3. Linear mirror
+
+## 4. Kanban mirror
+- t_eaeca3b1: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- t_de2fe7bd: [Epic] 2026-07-01 1차 시스템 점검 (BE + Cron 404 + Watch
+- t_aaa1de70: ❗ README.md 누락
+
+## 5. Fix / PR
+
+MODE: PRODUCTION
+  harvest=real mirror=real fix=dry email=dry
+timestamp: 220044
+[2026-09-22T22:01:10] report/dry-skip-email 
+[2026-09-22T22:01:10] cycle/done n_repos=30 n_cands=8 n_top=3
+[2026-09-22T22:01:10+08:00] exit=0

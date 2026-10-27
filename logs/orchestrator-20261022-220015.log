@@ -1,0 +1,45 @@
+[2026-10-22T22:00:15+08:00] daily-repo-orchestrator mirror-only cycle
+=== Hermes daily_repo_orchestrator.py | 2026-10-22 | DRY_RUN=False ===
+[2026-10-22T22:00:16] harvest/scan n=30
+[2026-10-22T22:00:56] harvest/candidates n=7
+[2026-10-22T22:00:56] prioritize/score top=['[Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TO', '❗ README.md 누락', '❗ README.md 누락']
+[2026-10-22T22:00:57] mirror/linear id=SHO-5016
+[2026-10-22T22:00:58] mirror/linear id=SHO-5017
+[2026-10-22T22:00:59] mirror/linear-reuse id=SHO-5017 key=mybotagent/hermes-skills::❗ README.md 누락
+[2026-10-22T22:01:00] mirror/kanban task=t_9d32d229
+[2026-10-22T22:01:00] mirror/kanban task=t_ac316374
+[2026-10-22T22:01:01] mirror/kanban task=t_6e6e167f
+[2026-10-22T22:01:01] fix/pr-dry title=fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions branch=(would be: hermes-auto/2026-10-22-audit-2026-07-03-3-todo-actio)
+[2026-10-22T22:01:01] fix/pr-dry title=fix: ❗ README.md 누락 branch=(would be: hermes-auto/2026-10-22-readme-md)
+[2026-10-22T22:01:01] fix/pr-dry title=fix: ❗ README.md 누락 branch=(would be: hermes-auto/2026-10-22-readme-md)
+[Hermes Daily Repo Report] 2026-10-22
+
+## 1. Harvested repos
+- 30 repos scanned
+
+## 2. Top-3 candidates (prioritized)
+- score=3.0  [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions  (repo=mybotagent/hermes-wiki)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-paper-portfolio)
+- score=2.4  ❗ README.md 누락  (repo=mybotagent/hermes-skills)
+
+## 3. Linear mirror
+- SHO-5016: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- SHO-5017: ❗ README.md 누락
+- SHO-5017: ❗ README.md 누락
+
+## 4. Kanban mirror
+- t_9d32d229: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- t_ac316374: ❗ README.md 누락
+- t_6e6e167f: ❗ README.md 누락
+
+## 5. Fix / PR
+- branch=(would be: hermes-auto/2026-10-22-audit-2026-07-03-3-todo-actio)  title=fix: [Audit 2026-07-03] 헤르메스 생태계 종합 감사 — 3 TODO actions
+- branch=(would be: hermes-auto/2026-10-22-readme-md)  title=fix: ❗ README.md 누락
+- branch=(would be: hermes-auto/2026-10-22-readme-md)  title=fix: ❗ README.md 누락
+
+MODE: PRODUCTION
+  harvest=real mirror=real fix=dry email=dry
+timestamp: 220015
+[2026-10-22T22:01:01] report/dry-skip-email 
+[2026-10-22T22:01:01] cycle/done n_repos=30 n_cands=7 n_top=3
+[2026-10-22T22:01:01+08:00] exit=0
