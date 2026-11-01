@@ -451,12 +451,18 @@ def _execute_update_wiki_index() -> dict:
     index_content = index_file.read_text()
     wiki_files = list(WIKI.rglob("*.md"))
     excluded = {"AGENTS.md", "SCHEMA.md", "index.md", "INDEX.md", "README.md"}
-    
+    # P19 fix (2026-11-01): 서브모듈 디렉토리(logs/, subagents-library/)는
+    # rglob이 디스 descended → index.md에 수십 건 rogue 항목 자동 삽입 → 33회 연속 재감염.
+    # 서브모듈은 각자 자체 index.md를 가지므로 여기서 제외한다.
+    submodule_dirs = {"logs", "subagents-library"}
+
     added = 0
     for f in wiki_files:
         if f.name in excluded:
             continue
         rel = f.relative_to(WIKI)
+        if rel.parts[0] in submodule_dirs:
+            continue
         link_name = str(rel).replace("\\", "/")
         if link_name not in index_content:
             # 간단한 링크 추가
