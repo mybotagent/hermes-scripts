@@ -12,7 +12,19 @@ GEN_SCRIPT="$HOME/.hermes/survey/gen_heatmap.py"
 cp "$SRC" "$DST"
 
 # 2. Regenerate heatmap PNG from latest CSV
-python3 "$GEN_SCRIPT"
+# NOTE: cron PATH resolves python3 -> /usr/bin/python3 (no matplotlib).
+# Prefer the hermes-agent venv interpreter which has matplotlib.
+PY_BIN=""
+for cand in "$HOME/.hermes/hermes-agent/venv/bin/python3" "$(command -v python3)"; do
+    if [ -x "$cand" ] && "$cand" -c "import matplotlib" >/dev/null 2>&1; then
+        PY_BIN="$cand"; break
+    fi
+done
+if [ -z "$PY_BIN" ]; then
+    echo "ERROR: no python3 with matplotlib found (tried hermes-agent venv, system python3)" >&2
+    exit 1
+fi
+"$PY_BIN" "$GEN_SCRIPT"
 
 # 3. Copy heatmap to repo (overwrite atomically)
 cp "$HEATMAP_SRC" "$HEATMAP_DST"
