@@ -30,13 +30,35 @@ SCHEMA = WIKI / "SCHEMA.md"
 # Research frontmatter 필수 필드
 REQUIRED_FIELDS = ["type", "title", "created", "updated", "tags"]
 
-# SCHEMA.md §6 taxonomy (근사치 — 실제 taxonomy에서 추출 권장)
-KNOWN_TAGS = {
-    "research", "analysis", "infra", "architecture", "code", "watchlist",
-    "solopreneur", "repos", "entity", "concept", "comparison",
-    "wiki", "index", "navigation", "catalog",
-    "skill", "memory", "cron", "wiki-save",
-}
+# 서브모듈 디렉토리 — 부모 wiki index/lint 대상에서 제외 (P19 fix, self_hermes.py와 동일 규칙)
+# 서브모듈은 각자 자체 index.md를 가지므로 부모 catalog에 섞지 않는다.
+SUBMODULE_DIRS = {"logs", "subagents-library", "trade-pipeline"}
+
+# SCHEMA.md §1 태그 taxonomy — 하드코딩 근사치 대신 실제 문서에서 추출
+def _load_known_tags() -> set[str]:
+    """SCHEMA.md §1 taxonomy 표에서 모든 `tag` 코드를 추출한다.
+    근사치 하드코딩 금지 (2026-11-08 주간 cleanup에서 research 태그 오탐 8건 발생)."""
+    tags: set[str] = set()
+    if not SCHEMA.exists():
+        return tags
+    content = SCHEMA.read_text(encoding="utf-8", errors="ignore")
+    # taxonomy 표는 §1 "~ §2" 섹션 안에 있음
+    start = content.find("## 1.")
+    end = content.find("## 2.", start)
+    section = content[start:end] if start >= 0 and end > start else content
+    for line in section.splitlines():
+        if not line.strip().startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 2:
+            continue
+        for cell in cells[:-1]:  # 마지막 칸(적용 디렉토리)은 태그가 아님
+            for code in re.findall(r"`([a-z0-9][a-z0-9._-]*)`", cell):
+                tags.add(code)
+    return tags
+
+
+KNOWN_TAGS = _load_known_tags()
 
 
 def read_frontmatter(path: Path) -> dict:
@@ -59,15 +81,32 @@ def read_frontmatter(path: Path) -> dict:
 
 
 def get_md_files(base: Path):
-    return list(base.rglob("*.md"))
+    """서브모듈 디렉토리(logs/, subagents-library/)는 제외 — P19 fix.
+    서브모듈은 자체 index.md를 가지므로 부모 wiki lint/index 대상이 아니다."""
+    files = []
+    for p in base.rglob("*.md"):
+        try:
+            rel = p.relative_to(WIKI)
+        except ValueError:
+            continue
+        if rel.parts and rel.parts[0] in SUBMODULE_DIRS:
+            continue
+        files.append(p)
+    return files
 
 
 def lint_orphan(scope: Path) -> list[str]:
-    """① orphan: inbound link 0 — research/ 만"""
+    """① orphan: inbound link 0 — research/ 만.
+
+    index.md는 부모 wiki의 catalog이므로 index에 등록된 페이지는 inbound link가 있는 것으로 본다.
+    (research/ 범위만 스캔하면 index에 정상 등록된 페이지가 전부 orphan으로 오탐됨)"""
     issues = []
     pages = get_md_files(scope)
+    catalog = INDEX.read_text(encoding="utf-8", errors="ignore") if INDEX.exists() else ""
     for p in pages:
         name = p.name
+        if name in catalog or p.stem in catalog:
+            continue
         refs = 0
         for other in pages:
             if other == p:
@@ -80,16 +119,35 @@ def lint_orphan(scope: Path) -> list[str]:
 
 
 def lint_broken_wikilink(scope: Path) -> list[str]:
-    """② [[link]] broken wikilink"""
+    """② [[link]] broken wikilink
+
+    해석 규칙:
+      - `[[dir/page]]` 또는 `[[dir/page.md]]` → 경로 형태 (stem 매칭이 아니라 relpath 매칭)
+      - `[[page#anchor]]` → 앵커 부분은 무시하고 페이지 경로만 검증
+      - `[[link]]` → 문서 예시 placeholder (AGENTS.md/SCHEMA.md 내 설명용) → 무시
+    """
     issues = []
     pages = get_md_files(scope)
     page_stems = {p.stem for p in pages}
+    relpaths = {str(p.relative_to(WIKI)) for p in pages}
     for p in pages:
         content = p.read_text(encoding="utf-8", errors="ignore")
         for m in re.findall(r"\[\[([^\]]+)\]\]", content):
             target = m.split("|")[0].strip()
-            if target not in page_stems:
-                issues.append(f"broken wikilink: {p.relative_to(WIKI)} → [[{target}]]")
+            if target in ("link", "링크"):  # 문서 예시 placeholder
+                continue
+            base = target.split("#")[0].strip()  # 앵커 제거
+            if not base:
+                continue
+            if base in page_stems:
+                continue
+            if base in relpaths:
+                continue
+            if f"{base}.md" in relpaths:
+                continue
+            if Path(base).name in page_stems:
+                continue
+            issues.append(f"broken wikilink: {p.relative_to(WIKI)} → [[{target}]]")
     return issues
 
 
@@ -171,9 +229,12 @@ def lint_quality(scope: Path) -> list[str]:
 
 
 def lint_tag_audit(scope: Path) -> list[str]:
-    """⑧ taxonomy 외 태그"""
+    """⑧ taxonomy 외 태그 — raw/ 는 제외 (불변 원본 저장소)"""
     issues = []
     for p in get_md_files(scope):
+        rel = p.relative_to(WIKI)
+        if rel.parts and rel.parts[0] == "raw":
+            continue  # AGENTS.md §Five Layers — raw는 절대 수정 금지
         fm = read_frontmatter(p)
         tags_str = fm.get("tags", "")
         if not tags_str:
